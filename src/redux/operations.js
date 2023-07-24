@@ -119,7 +119,7 @@ export const deleteMovie = createAsyncThunk(
     'movies/searchMoviesTitle',
     async (querySearch, thunkAPI) => {
        const params = {
-        title: `${querySearch}`,
+        search: `${querySearch}`,
       };
       try {
         const response = await axios.get(`/movies/`, {params});
@@ -130,17 +130,4 @@ export const deleteMovie = createAsyncThunk(
     }
   );
 
-  export const searchMoviesActor = createAsyncThunk(
-    'movies/searchMoviesActor',
-    async (querySearch, thunkAPI) => {
-       const params = {
-        title: `${querySearch}`,
-      };
-      try {
-        const response = await axios.get(`/movies/`, {params});
-        return response.data;
-      } catch (e) {
-        return thunkAPI.rejectWithValue(e.message);
-      }
-    }
-  );
+ 

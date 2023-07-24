@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-export const FormLogin = styled.form`
+export const SearchForm = styled.form`
   width: 300px;
   text-align: center;
   margin: 0 auto;

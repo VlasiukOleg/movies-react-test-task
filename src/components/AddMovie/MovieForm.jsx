@@ -1,7 +1,8 @@
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import SortByAlphaIcon from '@mui/icons-material/SortByAlpha';
-import SearchIcon from '@mui/icons-material/Search';
+import SearchOffIcon from '@mui/icons-material/SearchOff';
+
 import IconButton from '@mui/material/IconButton';
 import GroupAddIcon from '@mui/icons-material/GroupAdd';
 import PersonRemoveIcon from '@mui/icons-material/PersonRemove';
@@ -15,6 +16,8 @@ import { AddMovieForm, Message } from './AddMovie.styled';
 import { addMovie, orderMovies } from 'redux/operations';
 import { useState } from 'react';
 import { getMovies, getIsLoading } from 'redux/selectors';
+
+import { SearchMoviesTitleForm } from 'components/SearchForm/SerachForm';
 
 
 import { useForm, useFieldArray } from 'react-hook-form';
@@ -134,16 +137,18 @@ export const MovieForm = () => {
             type="button"
             onClick={() => dispatch(orderMovies())}
           >
-            <SortByAlphaIcon sx={{ color: red[400] }} />
+            <SortByAlphaIcon/>
       </IconButton>
-      <TextField id="standard-basic" label="Пошук фільмів за назвою" variant="standard" size="small"/>
       <IconButton
-            aria-label="search"
+            aria-label="order"
             type="button"
-            // onClick={() => dispatch(orderMovies())}
+            onClick={() => dispatch(fetchMovies())}
           >
-            <SearchIcon />
+            <SearchOffIcon/>
       </IconButton>
+      
+      <SearchMoviesTitleForm label={'Пошук фільмів за назвою'}  sx={{ mb: 2 }}/>
+      <SearchMoviesTitleForm label={'Пошук фільмів за актором'}/>
       </>
     
     )
