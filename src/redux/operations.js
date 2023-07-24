@@ -21,7 +21,6 @@ const setAuthHeader = token => {
     async (credentials, thunkApi) => {
       try {
         const res = await axios.post('/users', credentials);
-        console.log(res);
         setAuthHeader(res.data.token);
         return res.data;
       } catch (error) {
@@ -123,6 +122,18 @@ export const deleteMovie = createAsyncThunk(
       };
       try {
         const response = await axios.get(`/movies/`, {params});
+        return response.data;
+      } catch (e) {
+        return thunkAPI.rejectWithValue(e.message);
+      }
+    }
+  );
+
+  export const importMovies = createAsyncThunk(
+    'movies/importMovies',
+    async (formData, thunkAPI) => {
+      try {
+        const response = await axios.post(`/movies/import`, formData);
         return response.data;
       } catch (e) {
         return thunkAPI.rejectWithValue(e.message);

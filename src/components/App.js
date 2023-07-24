@@ -18,18 +18,18 @@ export const App = () =>  {
 
 
   useEffect(() => {
-    // const newUser = {
-    //   email: "petro1@gmail.com",
-    //   name: "Petrov1 Petro",
-    //   password: "super1-password",
-    //   confirmPassword: "super1-password"
-    // }
+    const newUser = {
+      email: "petro1@gmail.com",
+      name: "Petrov1 Petro",
+      password: "super1-password",
+      confirmPassword: "super1-password"
+    }
     const testUser = {
       email: "petro1@gmail.com",
       password: "super1-password",
       
     }
-    // dispatch(createUser(newUser));
+    dispatch(createUser(newUser));
     dispatch(createSession(testUser));
   }, [dispatch]);
 
@@ -44,7 +44,7 @@ export const App = () =>  {
         <CustomSection title="Бібліотека фільмів">
           <MovieForm/>
           {isLoading && !error && <p>Request in progress...</p>}
-          {movies.length>0 && <MoviesList/>}
+          {movies && <MoviesList/>}
           {error && <p>Oops.., something went wrong, please try again!</p>}
         </CustomSection>
       </Layout> 

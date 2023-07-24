@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-import { addMovie, fetchMovies, deleteMovie, fetchMovieInfo, searchMoviesTitle, searchMoviesActor } from './operations';
+import { addMovie, fetchMovies, deleteMovie, fetchMovieInfo, searchMoviesTitle, importMovies } from './operations';
 import { orderMovies } from './operations';
 
 const moviesInitialState = {
@@ -82,6 +82,14 @@ const moviesSlice = createSlice({
             state.items=action.payload.data;
         }, 
         [searchMoviesTitle.rejected]: handleRejected,
+// -----------------------------------------------------------------
+        [importMovies.pending]: handlePending,
+        [importMovies.fulfilled](state,action) {
+            state.isLoading = false;
+            state.error = null;
+            state.items=action.payload.data;
+        }, 
+        [importMovies.rejected]: handleRejected,
     }
 })
 

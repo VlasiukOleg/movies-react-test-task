@@ -18,6 +18,7 @@ import { useState } from 'react';
 import { getMovies, getIsLoading } from 'redux/selectors';
 
 import { SearchMoviesTitleForm } from 'components/SearchForm/SerachForm';
+import { ImportFromFileForm } from 'components/ImportForm/ImportForm';
 
 
 import { useForm, useFieldArray } from 'react-hook-form';
@@ -131,7 +132,7 @@ export const MovieForm = () => {
       </Button>
         </AddMovieForm>
         
-      {movies.length === 0 ? <div>У Вас немає жодного фільму.</div> : <div>Кількість фільмів у Вашій бібліотеці -  {movies.length}</div>}
+      {movies?.length === 0 ? <div>У Вас немає жодного фільму.</div> : <div>Кількість фільмів у Вашій бібліотеці -  {movies?.length}</div>}
       <IconButton
             aria-label="order"
             type="button"
@@ -148,7 +149,9 @@ export const MovieForm = () => {
       </IconButton>
       
       <SearchMoviesTitleForm label={'Пошук фільмів за назвою'}  sx={{ mb: 2 }}/>
-      <SearchMoviesTitleForm label={'Пошук фільмів за актором'}/>
+      <SearchMoviesTitleForm label={'Пошук фільмів за актором'} />
+      <ImportFromFileForm/>
+
       </>
     
     )
