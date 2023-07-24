@@ -1,12 +1,14 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-import { addMovie, fetchMovies } from './operations';
+import { addMovie, fetchMovies, deleteMovie } from './operations';
 
 
 const moviesInitialState = {
     items: [],
+    isShowItems: false,
     isLoading: false,
     error: null,
+    isDelete: false,
 }
 
 const handlePending = state => {
@@ -27,6 +29,7 @@ const moviesSlice = createSlice({
         [fetchMovies.fulfilled](state,action) {
             state.isLoading = false;
             state.error = null;
+            state.isShowItems = true;
             state.items=action.payload.data;
         },
         [fetchMovies.rejected]: handleRejected,
@@ -35,10 +38,23 @@ const moviesSlice = createSlice({
         [addMovie.fulfilled](state,action) {
             state.isLoading = false;
             state.error = null;
-            state.items.push(action.payload);
+            state.items.push(action.payload.data);
         },
         [addMovie.rejected]: handleRejected,
 
+
+        [deleteMovie.pending](state) {
+            state.isLoading = true;
+            state.isDelete = false;
+        },
+        [deleteMovie.fulfilled](state, action) {
+            console.log(action);
+            state.isLoading = false;
+            state.error = null;
+            state.isDelete = true;
+            state.items = state.items.filter(item => item.id !== action.payload.id);
+          },
+          [deleteMovie.rejected]: handleRejected,
     }
 })
 

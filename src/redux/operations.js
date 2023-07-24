@@ -16,33 +16,33 @@ const setAuthHeader = token => {
   };
 
 
-//   export const createUser = createAsyncThunk(
-//     'session/login',
-//     async (credentials, thunkApi) => {
-//       try {
-//         const res = await axios.post('/users', credentials);
-//         console.log(res);
-//         setAuthHeader(res.data.token);
-//         return res.data;
-//       } catch (error) {
-//         return thunkApi.rejectWithValue(error.value);
-//       }
-//     }
-//   );
+  export const createUser = createAsyncThunk(
+    'session/login',
+    async (credentials, thunkApi) => {
+      try {
+        const res = await axios.post('/users', credentials);
+        console.log(res);
+        setAuthHeader(res.data.token);
+        return res.data;
+      } catch (error) {
+        return thunkApi.rejectWithValue(error.value);
+      }
+    }
+  );
 
-//   export const createSession = createAsyncThunk(
-//     'session/create',
-//     async (credentials, thunkApi) => {
-//       try {
-//         const res = await axios.post('/sessions', credentials);
-//         console.log(res.data.token);
-//         setAuthHeader(res.data.token);
-//         return res.data;
-//       } catch (error) {
-//         return thunkApi.rejectWithValue(error.value);
-//       }
-//     }
-//   );
+  export const createSession = createAsyncThunk(
+    'session/create',
+    async (credentials, thunkApi) => {
+      try {
+        const res = await axios.post('/sessions', credentials);
+        console.log(res.data.token);
+        setAuthHeader(res.data.token);
+        return res.data;
+      } catch (error) {
+        return thunkApi.rejectWithValue(error.value);
+      }
+    }
+  );
 
 
 export const fetchMovies = createAsyncThunk(
@@ -71,6 +71,18 @@ export const addMovie = createAsyncThunk(
         }
     }
 )
+
+export const deleteMovie = createAsyncThunk(
+    'contacts/deleteContacts',
+    async (movieId, thunkAPI) => {
+      try {
+        const response = await axios.delete(`/movies/${movieId}`);
+        return response.data;
+      } catch (e) {
+        return thunkAPI.rejectWithValue(e.message);
+      }
+    }
+  );
 
 
 

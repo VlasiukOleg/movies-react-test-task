@@ -2,20 +2,23 @@ import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import IconButton from '@mui/material/IconButton';
 import GroupAddIcon from '@mui/icons-material/GroupAdd';
+import PersonRemoveIcon from '@mui/icons-material/PersonRemove';
 import { red } from '@mui/material/colors';
 
 import { useDispatch, useSelector } from 'react-redux';
+import { fetchMovies } from 'redux/operations';
 
 import { AddMovieForm, Message } from './AddMovie.styled';
 import { addMovie } from 'redux/operations';
 import { useState } from 'react';
+import { getMovies } from 'redux/selectors';
 
 
-import { useForm } from 'react-hook-form';
+import { useForm, useFieldArray } from 'react-hook-form';
 
 export const MovieForm = () => {
-  const [isShowInput, setIsShowInput] = useState(false);
     const dispatch = useDispatch();
+    const movies = useSelector(getMovies);
     const {
         register,
         handleSubmit,
@@ -27,20 +30,20 @@ export const MovieForm = () => {
       }
     });
 
-   
-
-    const addInput = () => {
-      setIsShowInput(true);
-    }
 
       const onSubmit = (data) => {
-        console.log(data);
+       console.log(data)
         dispatch(addMovie(data))
         reset();
       }
 
+      const onShowMoviesList = () => {
+            dispatch(fetchMovies())
+      }
+
     return (
-    <AddMovieForm onSubmit={handleSubmit(onSubmit)}>
+      <>
+      <AddMovieForm onSubmit={handleSubmit(onSubmit)}>
             <TextField
         id="outlined-basic"
         type="text"
@@ -79,49 +82,55 @@ export const MovieForm = () => {
           required: true,
         })}
       />
-      <TextField
-        id="outlined-basic"
-        type="text"
-        label="Ім'я та прізвище актора"
-        variant="outlined"
-        name="actors"
-        size="small"
-        sx={{ mb: 2 }}
-        {...register('actors[0]', {
-          required: true,
+      
+            <TextField
+           id="outlined-basic"
+           type="text"
+           label="Ім'я та прізвище актора"
+           variant="outlined"
+           name="actors"
+           size="small"
+           sx={{ mb: 2 }}
+           {...register('actors.0', {
+             required: true,
+           })}
+            />
+               <TextField
+           id="outlined-basic"
+           type="text"
+           label="Ім'я та прізвище актора"
+           variant="outlined"
+           name="actors"
+           size="small"
+           sx={{ mb: 2 }}
+           {...register('actors.1', {
+             required: true,
+           })}
+            />
           
-        })}
-      />
-      <IconButton
-            aria-label="delete"
-            type="button"
-            onClick={addInput}
-          >
-          <GroupAddIcon sx={{ color: red[400] }} />
-      </IconButton>
-      {isShowInput &&   <TextField
-        id="outlined-basic"
-        type="text"
-        label="Актори"
-        variant="outlined"
-        name="actors"
-        size="small"
-        sx={{ mb: 2 }}
-        {...register('actors[1]', {
-          required: true,
-          
-        })}
-      />}
-     
       <Button
         variant="contained"
         type="submit"
         size="small"
-        // disabled={isLoading}
+        
         color="success"
       >
         Додати фільм
       </Button>
         </AddMovieForm>
+        <Button
+        variant="contained"
+        type="submit"
+        size="small"
+        disabled={movies.length === 0}
+        color="success"
+        sx={{ mt: 2}} 
+        onClick = {onShowMoviesList}
+      >
+        Показати список фільмів
+      </Button>
+      {movies.length === 0 ? <div>У Вас немає жодного фільму</div> : <div>У вашій бібліотеці кількість фільмів {movies.length}</div>}
+      </>
+    
     )
 }
