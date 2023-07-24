@@ -6,17 +6,23 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import IconButton from '@mui/material/IconButton';
 import { red } from '@mui/material/colors';
 
-import { deleteMovie, fetchMovies } from 'redux/operations';
+import { useState } from 'react';
+
+import { deleteMovie, fetchMovies, fetchMovieInfo } from 'redux/operations';
 
 import { Movies, MoviesItem } from './MoviesList.styled';
+
+import { ModalMovieInfo } from 'components/ModalMovieInfo/ModalMOvieInfo';
 
 export const MoviesList = () => {
     const dispatch = useDispatch();
     const movies = useSelector(getMovies);
-    const isDelete = useSelector(getIsDelete)
-    
+    const isDelete = useSelector(getIsDelete);
+  
+
 
       useEffect(() => {
+        // eslint-disable-next-line no-lone-blocks
         {isDelete && dispatch(fetchMovies())}
   }, [dispatch, isDelete]);
 
@@ -25,7 +31,8 @@ export const MoviesList = () => {
              {movies.map(movie => (
             <MoviesItem key={movie.id}>
                 {movie.title}
-                <IconButton
+          <ModalMovieInfo movieId = {movie.id}/>
+          <IconButton
             aria-label="delete"
             type="button"
             onClick={() => dispatch(deleteMovie(movie.id))}
@@ -34,6 +41,7 @@ export const MoviesList = () => {
           </IconButton>
             </MoviesItem>
         ))}
+        
         </Movies>
        
     )

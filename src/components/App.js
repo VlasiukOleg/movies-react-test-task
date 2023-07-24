@@ -14,7 +14,7 @@ export const App = () =>  {
   const error = useSelector(getIsError);
   const isLoading = useSelector(getIsLoading);
   const movies = useSelector(getMovies);
-  const isShowItems = useSelector(getIsShowItems);
+
 
 
   useEffect(() => {
@@ -33,9 +33,9 @@ export const App = () =>  {
     dispatch(createSession(testUser));
   }, [dispatch]);
 
-  //  useEffect(() => {
-  //   dispatch(fetchMovies());
-  // }, [dispatch]);
+   useEffect(() => {
+    dispatch(fetchMovies());
+  }, [dispatch]);
 
   console.log(movies);
 
@@ -43,7 +43,9 @@ export const App = () =>  {
       <Layout>
         <CustomSection title="Бібліотека фільмів">
           <MovieForm/>
-          {isShowItems && <MoviesList/>}
+          {isLoading && !error && <p>Request in progress...</p>}
+          {movies.length>0 && <MoviesList/>}
+          {error && <p>Oops.., something went wrong, please try again!</p>}
         </CustomSection>
       </Layout> 
   );

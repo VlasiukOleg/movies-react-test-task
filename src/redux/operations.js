@@ -58,6 +58,19 @@ export const fetchMovies = createAsyncThunk(
     }
 )
 
+
+export const fetchMovieInfo = createAsyncThunk(
+  'movies/fetchMOvieInfo',
+  async (movieId, thunkAPI) => {
+      try {
+          setAuthHeader(accesToken);
+          const response = await axios.get(`/movies/${movieId}`);
+          return response.data;
+      } catch (error) {
+          return thunkAPI.rejectWithValue(error.message);
+      }
+  }
+)
   
 export const addMovie = createAsyncThunk(
     'movies/addMovie',
@@ -73,7 +86,7 @@ export const addMovie = createAsyncThunk(
 )
 
 export const deleteMovie = createAsyncThunk(
-    'contacts/deleteContacts',
+    'movies/deleteMovies',
     async (movieId, thunkAPI) => {
       try {
         const response = await axios.delete(`/movies/${movieId}`);
@@ -84,8 +97,50 @@ export const deleteMovie = createAsyncThunk(
     }
   );
 
+ 
+
+  export const orderMovies = createAsyncThunk(
+    'movies/sortMovies',
+    async (_, thunkAPI) => {
+       const params = {
+        sort: 'title',
+      };
+      try {
+        const response = await axios.get(`/movies/`, {params});
+        return response.data;
+      } catch (e) {
+        return thunkAPI.rejectWithValue(e.message);
+      }
+    }
+  );
 
 
+  export const searchMoviesTitle = createAsyncThunk(
+    'movies/searchMoviesTitle',
+    async (querySearch, thunkAPI) => {
+       const params = {
+        title: `${querySearch}`,
+      };
+      try {
+        const response = await axios.get(`/movies/`, {params});
+        return response.data;
+      } catch (e) {
+        return thunkAPI.rejectWithValue(e.message);
+      }
+    }
+  );
 
-
-
+  export const searchMoviesActor = createAsyncThunk(
+    'movies/searchMoviesActor',
+    async (querySearch, thunkAPI) => {
+       const params = {
+        title: `${querySearch}`,
+      };
+      try {
+        const response = await axios.get(`/movies/`, {params});
+        return response.data;
+      } catch (e) {
+        return thunkAPI.rejectWithValue(e.message);
+      }
+    }
+  );

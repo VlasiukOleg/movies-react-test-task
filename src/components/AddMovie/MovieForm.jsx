@@ -1,24 +1,34 @@
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
+import SortByAlphaIcon from '@mui/icons-material/SortByAlpha';
+import SearchIcon from '@mui/icons-material/Search';
 import IconButton from '@mui/material/IconButton';
 import GroupAddIcon from '@mui/icons-material/GroupAdd';
 import PersonRemoveIcon from '@mui/icons-material/PersonRemove';
 import { red } from '@mui/material/colors';
+import { MenuItem } from '@mui/material';
 
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchMovies } from 'redux/operations';
 
 import { AddMovieForm, Message } from './AddMovie.styled';
-import { addMovie } from 'redux/operations';
+import { addMovie, orderMovies } from 'redux/operations';
 import { useState } from 'react';
-import { getMovies } from 'redux/selectors';
+import { getMovies, getIsLoading } from 'redux/selectors';
 
 
 import { useForm, useFieldArray } from 'react-hook-form';
 
+const moviesFormat = [
+  { value: 'VHS'},
+  { value: 'DVD'},
+  
+] 
+
 export const MovieForm = () => {
     const dispatch = useDispatch();
     const movies = useSelector(getMovies);
+    const isLoading = useSelector(getIsLoading);
     const {
         register,
         handleSubmit,
@@ -30,16 +40,12 @@ export const MovieForm = () => {
       }
     });
 
-
       const onSubmit = (data) => {
        console.log(data)
         dispatch(addMovie(data))
         reset();
       }
 
-      const onShowMoviesList = () => {
-            dispatch(fetchMovies())
-      }
 
     return (
       <>
@@ -54,8 +60,6 @@ export const MovieForm = () => {
         sx={{ mb: 2 }}
         {...register('title', {
           required: true,
-          pattern:
-            /^[a-zA-Za-яА-Я]+(([' -][a-zA-Za-яА-Я ])?[a-zA-Za-яА-Я]*)*$/i,
         })}
       />
       <TextField
@@ -70,19 +74,24 @@ export const MovieForm = () => {
           required: true,
         })}
       /> 
-      <TextField
-        id="outlined-basic"
-        type="text"
-        label="Формат відео"
-        variant="outlined"
-        name="format"
-        size="small"
-        sx={{ mb: 2 }}
-        {...register('format', {
+       <TextField
+          id="outlined-select-currency"
+          select
+          name = 'format'
+          label="Виберіть формат"
+          defaultValue="DVD"
+          size="small"
+          sx={{width: 225, mb: 2}}
+          {...register('format', {
           required: true,
         })}
-      />
-      
+        >
+          {moviesFormat.map((option) => (
+            <MenuItem key={option.value} value={option.value}>
+              {option.value}
+            </MenuItem>
+          ))}
+        </TextField>
             <TextField
            id="outlined-basic"
            type="text"
@@ -112,24 +121,29 @@ export const MovieForm = () => {
         variant="contained"
         type="submit"
         size="small"
-        
+        sx={{ mb: 2 }}
         color="success"
       >
         Додати фільм
       </Button>
         </AddMovieForm>
-        <Button
-        variant="contained"
-        type="submit"
-        size="small"
-        disabled={movies.length === 0}
-        color="success"
-        sx={{ mt: 2}} 
-        onClick = {onShowMoviesList}
-      >
-        Показати список фільмів
-      </Button>
-      {movies.length === 0 ? <div>У Вас немає жодного фільму</div> : <div>У вашій бібліотеці кількість фільмів {movies.length}</div>}
+        
+      {movies.length === 0 ? <div>У Вас немає жодного фільму.</div> : <div>Кількість фільмів у Вашій бібліотеці -  {movies.length}</div>}
+      <IconButton
+            aria-label="order"
+            type="button"
+            onClick={() => dispatch(orderMovies())}
+          >
+            <SortByAlphaIcon sx={{ color: red[400] }} />
+      </IconButton>
+      <TextField id="standard-basic" label="Пошук фільмів за назвою" variant="standard" size="small"/>
+      <IconButton
+            aria-label="search"
+            type="button"
+            // onClick={() => dispatch(orderMovies())}
+          >
+            <SearchIcon />
+      </IconButton>
       </>
     
     )
