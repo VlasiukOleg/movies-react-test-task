@@ -6,7 +6,7 @@ import { MoviesList } from "./MoviesList/MoviesList";
 import { useEffect} from "react";
 import { useDispatch, useSelector } from 'react-redux';
 import { createSession, createUser, fetchMovies } from "redux/operations";
-import { getMovies, getIsError, getIsLoading, getIsShowItems } from "redux/selectors";
+import { getMovies, getIsError, getIsLoading } from "redux/selectors";
 
 
 export const App = () =>  {
@@ -37,7 +37,6 @@ export const App = () =>  {
     dispatch(fetchMovies());
   }, [dispatch]);
 
-  console.log(movies);
 
   return (
       <Layout>

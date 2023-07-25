@@ -4,24 +4,21 @@ import SortByAlphaIcon from '@mui/icons-material/SortByAlpha';
 import SearchOffIcon from '@mui/icons-material/SearchOff';
 
 import IconButton from '@mui/material/IconButton';
-import GroupAddIcon from '@mui/icons-material/GroupAdd';
-import PersonRemoveIcon from '@mui/icons-material/PersonRemove';
-import { red } from '@mui/material/colors';
+
 import { MenuItem } from '@mui/material';
 
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchMovies } from 'redux/operations';
 
-import { AddMovieForm, Message } from './AddMovie.styled';
+import { AddMovieForm } from './AddMovie.styled';
 import { addMovie, orderMovies } from 'redux/operations';
-import { useState } from 'react';
-import { getMovies, getIsLoading } from 'redux/selectors';
+import { getMovies } from 'redux/selectors';
 
 import { SearchMoviesTitleForm } from 'components/SearchForm/SerachForm';
 import { ImportFromFileForm } from 'components/ImportForm/ImportForm';
 
 
-import { useForm, useFieldArray } from 'react-hook-form';
+import { useForm} from 'react-hook-form';
 
 const moviesFormat = [
   { value: 'VHS'},
@@ -32,12 +29,11 @@ const moviesFormat = [
 export const MovieForm = () => {
     const dispatch = useDispatch();
     const movies = useSelector(getMovies);
-    const isLoading = useSelector(getIsLoading);
+
     const {
         register,
         handleSubmit,
         reset,
-        formState: { errors },
     } = useForm({
       defaultValues: {
         actors: [],
@@ -131,8 +127,8 @@ export const MovieForm = () => {
         Додати фільм
       </Button>
         </AddMovieForm>
-        
-      {movies?.length === 0 ? <div>У Вас немає жодного фільму.</div> : <div>Кількість фільмів у Вашій бібліотеці -  {movies?.length}</div>}
+        <ImportFromFileForm/>  
+      {movies?.length === 0 && <div>У Вас немає жодного фільму.</div>}
       <IconButton
             aria-label="order"
             type="button"
@@ -150,7 +146,6 @@ export const MovieForm = () => {
       
       <SearchMoviesTitleForm label={'Пошук фільмів за назвою'}  sx={{ mb: 2 }}/>
       <SearchMoviesTitleForm label={'Пошук фільмів за актором'} />
-      <ImportFromFileForm/>
 
       </>
     

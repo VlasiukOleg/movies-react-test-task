@@ -6,9 +6,8 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import IconButton from '@mui/material/IconButton';
 import { red } from '@mui/material/colors';
 
-import { useState } from 'react';
 
-import { deleteMovie, fetchMovies, fetchMovieInfo } from 'redux/operations';
+import { deleteMovie, fetchMovies } from 'redux/operations';
 
 import { Movies, MoviesItem } from './MoviesList.styled';
 
