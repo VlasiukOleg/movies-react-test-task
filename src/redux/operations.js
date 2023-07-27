@@ -1,5 +1,6 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
+import { Notify } from 'notiflix/build/notiflix-notify-aio';
 
 axios.defaults.baseURL = "http://localhost:8000/api/v1";
 
@@ -75,9 +76,10 @@ export const addMovie = createAsyncThunk(
             setAuthHeader(accesToken);
             const response = await axios.post('/movies', credentials);
             if (response.data.status === 0) {
-              console.log('Такий фільми вже є');
+              Notify.warning('Такий фільм вже є в вашій бібліотеці');
               return;
             } else {
+              Notify.success('Фільм успішно доданий до бібліотеки');
               return response.data;
             }
             
@@ -93,6 +95,7 @@ export const deleteMovie = createAsyncThunk(
     async (movieId, thunkAPI) => {
       try {
         const response = await axios.delete(`/movies/${movieId}`);
+        Notify.success('Ви успішно видалили фільм з бібліотеки');
         return response.data;
       } catch (e) {
         return thunkAPI.rejectWithValue(e.message);

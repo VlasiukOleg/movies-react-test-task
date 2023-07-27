@@ -2,6 +2,8 @@ import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getMovies, getIsDelete } from 'redux/selectors';
 
+import { Confirm } from 'notiflix/build/notiflix-confirm-aio';
+
 import DeleteIcon from '@mui/icons-material/Delete';
 import IconButton from '@mui/material/IconButton';
 import { red } from '@mui/material/colors';
@@ -25,6 +27,24 @@ export const MoviesList = () => {
         {isDelete && dispatch(fetchMovies())}
   }, [dispatch, isDelete]);
 
+    const handleDelete = (movieId) => {
+      Confirm.show(
+        'Попередження',
+        'Ви дійсно хочете видалити цей фільм?',
+        'Yes',
+        'No',
+        () => {
+          dispatch(deleteMovie(movieId))
+        },
+        () => {
+        return;
+        },
+        {
+          titleColor:'#c62828' ,
+        }
+        );
+    }
+
     return (
         <Movies>
              {movies.map(movie => (
@@ -34,7 +54,7 @@ export const MoviesList = () => {
           <IconButton
             aria-label="delete"
             type="button"
-            onClick={() => dispatch(deleteMovie(movie.id))}
+            onClick={() => handleDelete(movie.id)}
           >
             <DeleteIcon sx={{ color: red[400] }} />
           </IconButton>
