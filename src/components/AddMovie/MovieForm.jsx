@@ -10,7 +10,7 @@ import { MenuItem } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchMovies } from 'redux/operations';
 
-import { AddMovieForm } from './AddMovie.styled';
+import { AddMovieForm, Message } from './AddMovie.styled';
 import { addMovie, orderMovies } from 'redux/operations';
 import { getMovies } from 'redux/selectors';
 
@@ -34,6 +34,7 @@ export const MovieForm = () => {
         register,
         handleSubmit,
         reset,
+        formState: { errors },
     } = useForm({
       defaultValues: {
         actors: [],
@@ -41,11 +42,16 @@ export const MovieForm = () => {
     });
 
       const onSubmit = (data) => {
+        
        console.log(data)
         dispatch(addMovie(data))
         reset();
       }
-
+      
+      // const handleChange = (event) => {
+      //   const { name, value } = event.target;
+      //   setValue(name, value.trim());
+      // }
 
     return (
       <>
@@ -60,11 +66,14 @@ export const MovieForm = () => {
         sx={{ mb: 2 }}
         {...register('title', {
           required: true,
+          pattern: /^(?!\s)[a-zA-Z0-9а-яА-ЯіІїЇєЄ,-\s]*$/i,
+          
         })}
       />
+      {errors.title && <Message>Текст не може містити пробіли на початку та допускає тільки букви, цифри, кому (,) і дефіс (-)</Message>}
       <TextField
         id="outlined-basic"
-        type="number"
+        type="text"
         label="Рік випуску"
         variant="outlined"
         name="year"
@@ -72,8 +81,11 @@ export const MovieForm = () => {
         sx={{ mb: 2 }}
         {...register('year', {
           required: true,
+          pattern:
+            /^(1850|19[0-9]{2}|200[0-9]|201[0-9]|202[0-2]|2023)$/i,
         })}
       /> 
+      {errors.year && <Message>Рік має бути в діапозоні з 1900 до 2023</Message>}
        <TextField
           id="outlined-select-currency"
           select
@@ -102,8 +114,12 @@ export const MovieForm = () => {
            sx={{ mb: 2 }}
            {...register('actors.0', {
              required: true,
+             pattern:
+            /^(?!\s)[a-zA-Zа-яА-ЯіІїЇєЄ,-\s]*$/i,
            })}
+           
             />
+            {errors.actors && <Message>Текст не може містити пробіли на початку та допускає тільки букви, кому (,) і дефіс (-)</Message>}
                <TextField
            id="outlined-basic"
            type="text"
@@ -114,8 +130,11 @@ export const MovieForm = () => {
            sx={{ mb: 2 }}
            {...register('actors.1', {
              required: true,
+             pattern:
+            /^(?!\s)[a-zA-Zа-яА-ЯіІїЇєЄ,-\s]*$/i,
            })}
             />
+            {errors.actors && <Message>Текст не може містити пробіли на початку та допускає тільки букви, кому (,) і дефіс (-)</Message>}
           
       <Button
         variant="contained"

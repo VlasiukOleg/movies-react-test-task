@@ -49,7 +49,13 @@ const moviesSlice = createSlice({
         [addMovie.fulfilled](state,action) {
             state.isLoading = false;
             state.error = null;
-            state.items.push(action.payload.data);
+            console.log(action);
+            if (action.payload === undefined) {
+                return;
+            } else  {
+                state.items.push(action.payload.data);
+            }
+            
         },
         [addMovie.rejected]: handleRejected,
 

@@ -29,7 +29,7 @@ export const App = () =>  {
       password: "super1-password",
       
     }
-    dispatch(createUser(newUser));
+    // dispatch(createUser(newUser));
     dispatch(createSession(testUser));
   }, [dispatch]);
 

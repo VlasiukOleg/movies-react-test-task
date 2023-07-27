@@ -11,5 +11,6 @@ export const Message = styled.div`
   width: 340px;
   font-size: 12px;
   color: tomato;
-  margin-bottom: 2px;
+  margin-bottom: 15px;
+  margin-top: -15px;
 `;

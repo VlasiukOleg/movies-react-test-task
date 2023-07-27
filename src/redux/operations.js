@@ -74,8 +74,15 @@ export const addMovie = createAsyncThunk(
         try {
             setAuthHeader(accesToken);
             const response = await axios.post('/movies', credentials);
-            return response.data;
+            if (response.data.status === 0) {
+              console.log('Такий фільми вже є');
+              return;
+            } else {
+              return response.data;
+            }
+            
         } catch (error) {
+      
             return thunkAPI.rejectWithValue(error.message);
         }
     }
