@@ -32,7 +32,6 @@ const setAuthHeader = token => {
     async (credentials, thunkApi) => {
       try {
         const res = await axios.post('/sessions', credentials);
-        console.log(res.data.token);
         setAuthHeader(res.data.token);
         return res.data;
       } catch (error) {
@@ -44,10 +43,14 @@ const setAuthHeader = token => {
 
 export const fetchMovies = createAsyncThunk(
     'movies/fetchAllMovie',
-    async (_, thunkAPI) => {
+    async (offset, thunkAPI) => {
+      console.log(offset);
+      const params = {
+        offset: `${offset}`,
+      };
         try {
             setAuthHeader(accesToken);
-            const response = await axios.get('/movies');
+            const response = await axios.get('/movies', {params});
             return response.data;
         } catch (error) {
             return thunkAPI.rejectWithValue(error.message);
@@ -59,6 +62,7 @@ export const fetchMovies = createAsyncThunk(
 export const fetchMovieInfo = createAsyncThunk(
   'movies/fetchMOvieInfo',
   async (movieId, thunkAPI) => {
+    
       try {
           setAuthHeader(accesToken);
           const response = await axios.get(`/movies/${movieId}`);
@@ -92,9 +96,13 @@ export const addMovie = createAsyncThunk(
 
 export const deleteMovie = createAsyncThunk(
     'movies/deleteMovies',
-    async (movieId, thunkAPI) => {
+    
+    async (movieId, offset, thunkAPI) => {
+      const params = {
+        offset: `${offset}`,
+      };
       try {
-        const response = await axios.delete(`/movies/${movieId}`);
+        const response = await axios.delete(`/movies/${movieId}`, {params});
         Notify.success('Ви успішно видалили фільм з бібліотеки');
         return response.data;
       } catch (e) {
@@ -129,8 +137,13 @@ export const deleteMovie = createAsyncThunk(
       };
       try {
         const response = await axios.get(`/movies/`, {params});
-        return response.data;
-      } catch (e) {
+          if (response.data.data.length === 0) {
+            Notify.warning('По Вашому запиту нічого не знайдено');
+            return response.data;
+          } else {
+            return response.data;
+          }
+          }   catch (e) {
         return thunkAPI.rejectWithValue(e.message);
       }
     }

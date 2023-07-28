@@ -1,5 +1,6 @@
 import { useDispatch } from 'react-redux';
 import { importMovies } from 'redux/operations';
+import { ImportFormWrap } from './ImportForm.styled';
 
 
 export const ImportFromFileForm = () => {
@@ -20,12 +21,12 @@ export const ImportFromFileForm = () => {
   };
 
   return (
-    <div>
-      <h3>Завантажте файл</h3>
+    < ImportFormWrap>
+      <h3>Завантажити фільми за допомогою файла</h3>
       <form onSubmit={handleSubmit}>
         <input type="file" name="movies" id="fileInput" />
         <button type="submit">Завантажити</button>
       </form>
-    </div>
+    </ ImportFormWrap>
   );
 };

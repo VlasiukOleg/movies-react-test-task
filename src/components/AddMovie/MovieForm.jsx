@@ -48,10 +48,6 @@ export const MovieForm = () => {
         reset();
       }
       
-      // const handleChange = (event) => {
-      //   const { name, value } = event.target;
-      //   setValue(name, value.trim());
-      // }
 
     return (
       <>
@@ -145,8 +141,8 @@ export const MovieForm = () => {
       >
         Додати фільм
       </Button>
-        </AddMovieForm>
-        <ImportFromFileForm/>  
+      </AddMovieForm>
+      <ImportFromFileForm/>  
       {movies?.length === 0 && <div>У Вас немає жодного фільму.</div>}
       <IconButton
             aria-label="order"
@@ -158,7 +154,7 @@ export const MovieForm = () => {
       <IconButton
             aria-label="order"
             type="button"
-            onClick={() => dispatch(fetchMovies())}
+            onClick={() => dispatch(fetchMovies(0))}
           >
             <SearchOffIcon/>
       </IconButton>

@@ -29,12 +29,12 @@ export const App = () =>  {
       password: "super1-password",
       
     }
-    // dispatch(createUser(newUser));
+    dispatch(createUser(newUser));
     dispatch(createSession(testUser));
   }, [dispatch]);
 
    useEffect(() => {
-    dispatch(fetchMovies());
+    dispatch(fetchMovies(0));
   }, [dispatch]);
 
 

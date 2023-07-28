@@ -6,6 +6,7 @@ import { orderMovies } from './operations';
 const moviesInitialState = {
     item: [],
     items: [],
+    total: 0,
     isShowItems: false,
     isLoading: false,
     error: null,
@@ -32,6 +33,7 @@ const moviesSlice = createSlice({
             state.isLoading = false;
             state.error = null;
             state.items=action.payload.data;
+            state.total=action.payload.meta.total;
         },
         [fetchMovies.rejected]: handleRejected,
 // ----------------------------------------------------
@@ -54,6 +56,7 @@ const moviesSlice = createSlice({
                 return;
             } else  {
                 state.items.push(action.payload.data);
+                state.total=state.total+1;
             }
             
         },
@@ -78,6 +81,7 @@ const moviesSlice = createSlice({
             state.error = null;
             state.isDelete = true;
             state.items = state.items.filter(item => item.id !== action.payload.id);
+            state.total=action.payload.meta?.total;
           },
           [deleteMovie.rejected]: handleRejected,
 //--------------------------------------------------------------------
@@ -86,6 +90,7 @@ const moviesSlice = createSlice({
             state.isLoading = false;
             state.error = null;
             state.items=action.payload.data;
+            state.total=action.payload.meta?.total;
         }, 
         [searchMoviesTitle.rejected]: handleRejected,
 // -----------------------------------------------------------------
@@ -94,6 +99,7 @@ const moviesSlice = createSlice({
             state.isLoading = false;
             state.error = null;
             state.items=action.payload.data;
+            state.total=action.payload.meta?.total;
         }, 
         [importMovies.rejected]: handleRejected,
     }
